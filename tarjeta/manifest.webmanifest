@@ -1,0 +1,14 @@
+{
+  "name": "Alejandra Cifuentes · Tarjeta",
+  "short_name": "Alejandra C.",
+  "description": "Tarjeta de presentación digital de Alejandra Cifuentes Cortés, Takami",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "es",
+  "icons": [
+    { "src": "icono.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

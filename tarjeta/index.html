@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alejandra Cifuentes · Tarjeta</title>
+<meta name="description" content="Tarjeta de presentación digital de Alejandra Cifuentes Cortés, Gerente de Tecnología en Takami.">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Alejandra C.">
+<meta property="og:title" content="Alejandra Cifuentes Cortés · Tarjeta de presentación">
+<meta property="og:image" content="../foto.jpg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icono.png">
+<link rel="icon" href="icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+/* Marca Takami: negro, blanco, gris; rojo Takami solo como acento. Montserrat. */
+:root{--rojo:#E5394B;--gris:#A1A1AA;--borde:#2A2A2E}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:#000;min-height:100%}
+body{font-family:Montserrat,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;
+  padding:calc(env(safe-area-inset-top) + 18px) 18px calc(env(safe-area-inset-bottom) + 22px);
+  display:flex;flex-direction:column;align-items:center;min-height:100vh;min-height:100dvh}
+.stage{width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px;margin:auto 0}
+
+/* marco de esquinas abiertas del logo Takami */
+.marco{position:relative}
+.marco::before,.marco::after{content:"";position:absolute;pointer-events:none;border-style:solid;border-color:currentColor}
+.marco::before{left:0;top:0;right:0;height:78%;border-width:var(--t,3px) 0 0 var(--t,3px)}
+.marco::after{right:0;bottom:0;left:0;height:78%;border-width:0 var(--t,3px) var(--t,3px) 0}
+
+.logo{height:24px;width:auto;align-self:flex-start}
+.who{display:flex;align-items:center;gap:16px}
+.ph{width:86px;height:86px;flex:none;color:#fff;--t:2px;padding:7px}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:grayscale(1)}
+.name{font-size:clamp(22px,6.4vw,27px);font-weight:800;line-height:1.08;letter-spacing:-.02em}
+.cargo{margin-top:6px;font-size:14px;font-weight:600;color:#E4E4E7;line-height:1.35}
+.cargo b{color:#fff}
+.esp{margin-top:3px;font-size:12px;font-weight:600;color:var(--gris)}
+
+.qr-card{color:#fff;--t:4px;padding:14px;cursor:zoom-in;border:0;background:none;font:inherit;width:100%}
+.qr-inner{background:#fff;padding:18px 18px 14px;text-align:center}
+.qr{width:100%;aspect-ratio:1;max-width:330px;margin:0 auto}
+.qr svg{width:100%;height:100%;display:block}
+.qr-cap{margin-top:12px;font-size:14px;font-weight:700;color:#000;letter-spacing:.01em}
+.qr-sub{margin-top:2px;font-size:11.5px;font-weight:600;color:#5C5C66}
+
+.frase{border-left:3px solid var(--rojo);padding-left:12px;font-size:14px;font-weight:600;line-height:1.45;color:#E4E4E7}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 12px;border-radius:6px;font:inherit;font-size:14px;font-weight:700;color:#fff;text-decoration:none;border:1px solid #3A3A40;background:transparent;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.blanco{background:#fff;color:#000;border-color:#fff;grid-column:1 / -1}
+.btn.full{grid-column:1 / -1}
+.hint{font-size:12.5px;color:#71717A;text-align:center;line-height:1.5;padding:0 6px}
+.hint b{color:#C9C9CF}
+body.app .hint{display:none}
+
+/* QR a pantalla completa */
+.zoom{position:fixed;inset:0;background:#fff;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;color:#000;cursor:zoom-out}
+.zoom.on{display:flex}
+.zoom .qr{max-width:min(92vw,92vh);width:100%}
+.zoom p{font-size:16px;font-weight:700}
+.zoom small{font-size:12px;color:#5C5C66;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 20px);transform:translateX(-50%) translateY(140px);background:#fff;color:#000;padding:12px 18px;border-radius:6px;font-weight:700;font-size:14px;transition:transform .25s ease;z-index:30}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<main class="stage">
+  <img class="logo" src="../logo-blanco.png" alt="Takami" width="74" height="24">
+
+  <div class="who">
+    <div class="ph marco"><img id="foto" alt=""></div>
+    <div><div class="name" id="name"></div><div class="cargo" id="cargo"></div><div class="esp" id="esp"></div></div>
+  </div>
+
+  <button class="qr-card marco" id="qrBtn" type="button" aria-label="Ampliar el código QR">
+    <div class="qr-inner">
+      <div class="qr" id="qr"></div>
+      <div class="qr-cap">Escanea y conoce mi perfil</div>
+      <div class="qr-sub">Toca el código para ampliarlo</div>
+    </div>
+  </button>
+
+  <p class="frase" id="frase"></p>
+
+  <div class="actions">
+    <a class="btn blanco" id="li" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.5V9h3.6v11.5z"/></svg>Conectar en LinkedIn</a>
+    <button class="btn" id="vcf" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Guardar</button>
+    <button class="btn" id="share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>Compartir</button>
+    <a class="btn full" href="../"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Ver perfil completo</a>
+  </div>
+  <p class="hint">En iPhone: abre en <b>Safari</b>, toca <b>Compartir</b> y luego <b>Agregar a pantalla de inicio</b> para tener esta tarjeta como app.</p>
+</main>
+
+<div class="zoom" id="zoom" role="dialog" aria-label="Código QR ampliado"><div class="qr" id="qrBig"></div><p>Escanea y conoce mi perfil</p><small>Toca para cerrar</small></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../perfil.js"></script>
+<script>
+(function(){
+  const P = window.PERFIL || {}, C = P.contacto || {};
+  const $ = id => document.getElementById(id);
+  const PERFIL_URL = new URL('../', location.href).href;
+  const parts = (P.nombre||'').split(' '), half = Math.ceil(parts.length/2);
+  const first = parts.slice(0,half).join(' '), last = parts.slice(half).join(' ');
+  if (navigator.standalone || matchMedia('(display-mode: standalone)').matches) document.body.classList.add('app');
+
+  $('foto').src = '../' + (P.foto || 'foto.jpg');
+  $('name').append(document.createTextNode(first), document.createElement('br'), document.createTextNode(last));
+  const cargo = P.cargo || ''; const i = cargo.lastIndexOf('Takami');
+  if (i >= 0) { $('cargo').append(document.createTextNode(cargo.slice(0,i))); const b=document.createElement('b'); b.textContent='Takami'; $('cargo').append(b); }
+  else $('cargo').textContent = cargo;
+  $('esp').textContent = P.especialidades || '';
+  $('frase').textContent = P.frase || '';
+  if (C.linkedin) $('li').href = C.linkedin; else $('li').remove();
+
+  const svg = () => { const q = qrcode(0,'M'); q.addData(PERFIL_URL); q.make(); return q.createSvgTag({cellSize:4,margin:0,scalable:true}); };
+  try { $('qr').innerHTML = svg(); $('qrBig').innerHTML = svg(); } catch(e) {}
+  $('qrBtn').addEventListener('click', () => $('zoom').classList.add('on'));
+  $('zoom').addEventListener('click', () => $('zoom').classList.remove('on'));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') $('zoom').classList.remove('on'); });
+
+  const toast = m => { const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2400); };
+  $('vcf').addEventListener('click', () => {
+    const tel = (C.whatsapp||'').replace(/\D/g,'');
+    const v = ['BEGIN:VCARD','VERSION:3.0',`N:${last};${first};;;`,`FN:${P.nombre}`,'ORG:Takami S.A.',
+      `TITLE:${(P.experiencia&&P.experiencia[0]&&P.experiencia[0].cargo)||''}`, tel?`TEL;TYPE=CELL:+${tel}`:'',
+      C.correo?`EMAIL;TYPE=WORK:${C.correo}`:'', `URL:${PERFIL_URL}`, C.linkedin?`X-SOCIALPROFILE;TYPE=linkedin:${C.linkedin}`:'',
+      'END:VCARD'].filter(Boolean).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([v],{type:'text/vcard'}));
+    a.download = 'Alejandra-Cifuentes.vcf'; document.body.appendChild(a); a.click(); a.remove(); toast('Contacto listo para guardar');
+  });
+  $('share').addEventListener('click', async () => {
+    const data = {title:'Alejandra Cifuentes · Tarjeta de presentación', text:'Mi tarjeta de presentación', url:location.href.split('#')[0]};
+    if (navigator.share) { try{ await navigator.share(data); }catch(e){} }
+    else { try{ await navigator.clipboard.writeText(data.url); toast('Enlace copiado'); }catch(e){ prompt('Copia este enlace:', data.url); } }
+  });
+})();
+</script>
+</body>
+</html>
