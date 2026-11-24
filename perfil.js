@@ -22,7 +22,8 @@ window.PERFIL = {
     linkedin: "https://www.linkedin.com/in/alejandracifuentescortes/",
     takami: "",          // página web de Takami; "" oculta el botón "Conoce Takami"
     correo: "",          // pon un correo para mostrar el botón "Escríbeme"
-    whatsapp: ""         // solo números con 57, ej. 573001234567; "" lo oculta
+    telefono: "310 292 5265",   // como se ve en pantalla; "" lo oculta
+    whatsapp: "573102925265"    // solo números con 57; "" oculta el botón de WhatsApp
   },
 
   propuesta: "Convierte la complejidad operativa de restaurantes y grupos gastronómicos en decisiones, sistemas y tecnología que permiten crecer con control y consistencia.",
